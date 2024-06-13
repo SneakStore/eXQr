@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Personnalisé pour Cafeteria</title>
+    <style>
+        @keyframes chameleon {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            width: 100%;
+            background: linear-gradient(45deg, #7C07FF, #45a049, #008CBA, #EE3BC3, #7C07FF);
+            background-size: 400% 400%;
+            animation: chameleon 15s ease infinite;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+        .nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        .menu-section, .contact-section, .reservation-section {
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: en bas;
+            bottom: 0;
+            width: 100%;
+        }
+        .container {
+            max-width: 800px;
+            margin: 80px auto 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 38px;
+            text-align: center;
+            color: #ffffff;
+        }
+        h2 {
+            font-size: 38px;
+            text-align: center;
+            color: #333;
+        }
+        #canvas {
+            display: block;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        input[type="file"] {
+            padding: 10px;
+            background-color: #6329D8;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        input[type="file"]:hover {
+            background-color: #45a049;
+        }
+        button {
+            padding: 10px;
+            background-color: #6329D8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #downloadBtn {
+            background-color: #008CBA;
+        }
+        #downloadBtn:hover {
+            background-color: #007BB5;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .text-options {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="header">
+            <h1>Bienvenue sur le generateur de code QR eXQr</h1>
+            <p>Une expérience de creation de code QR inoubliable</p>
+        </div>
+        <div class="nav">
+            <a href="#menu">obtenir plus d'idée</a>
+            <a href="#reservation">abonnment</a>
+            <a href="#contact">Contact</a>
+            <a href="#avis">Avis</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>QR Code Personnalisé</h2>
+        <form id="qrForm">
+            <label for="url">URL :</label>
+            <input type="text" id="url" name="url" placeholder="https://example.com" required>
+            <label for="color">Couleur :</label>
+            <input type="color" id="color" name="color" value="#000000">
+            <label for="bgColor">Couleur de fond :</label>
+            <input type="color" id="bgColor" name="bgColor" value="#ffffff">
+            <label for="dotsType">Type de points :</label>
+            <select id="dotsType" name="dotsType">
+                <option value="rounded">Arrondi</option>
+                <option value="dots">Points</option>
+                <option value="classy">Classique</option>
+                <option value="classy-rounded">Classique Arrondi</option>
+                <option value="square">Carré</option>
+                <option value="extra-rounded">Extra Arrondi</option>
+            </select>
+            <label for="logo">URL du logo :</label>
+            <input type="text" id="logo" name="logo" placeholder="https://example.com/logo.png">
+            <input type="color" id="borderColor" name="borderColor" value="#000000">
+            <label for="borderThickness">Épaisseur du cadre :</label>
+            <input type="number" id="borderThickness" name="borderThickness" value="5" min="1" max="20">
+            <label for="pageBgColor">Couleur du fond de la page :</label>
+            <input type="color" id="pageBgColor" name="pageBgColor" value="#fbdbcb">
+            <div id="textOptionsContainer">
+                <div class="text-options" data-text-index="0">
+                    <label for="qrText0">Texte :</label>
+                    <input type="text" id="qrText0" name="qrText" placeholder="Votre texte ici">
+                    <label for="textColor0">Couleur du texte :</label>
+                    <input type="color" id="textColor0" name="textColor" value="#000000">
+                    <label for="textSize0">Taille du texte :</label>
+                    <input type="number" id="textSize0" name="textSize" value="20">
+                    <label for="textFont0">Police du texte :</label>
+                    <select id="textFont0" name="textFont">
+                        <option value="Arial">Arial</option>
+                        <option value="Brush Script MT">Brush Script MT</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Vladimir Script">Vladimir Script</option>
+                    </select>
+                    <label for="textPosX0">Position X du Texte :</label>
+                    <input type="number" id="textPosX0" name="textPosX" value="200">
+                    <label for="textPosY0">Position Y du Texte :</label>
+                    <input type="number" id="textPosY0" name="textPosY" value="450">
+                </div>
+            </div>
+            <button type="button" id="addTextBtn">Ajouter un autre texte</button>
+            <label for="qrSize">Taille du QR Code :</label>
+            <input type="number" id="qrSize" name="qrSize" value="300" min="100" max="500">
+            <label for="qrPosX">Position X du QR Code :</label>
+            <input type="number" id="qrPosX" name="qrPosX" value="0">
+            <label for="qrPosY">Position Y du QR Code :</label>
+            <input type="number" id="qrPosY" name="qrPosY" value="0">
+            <label for="extraImage">Image supplémentaire :</label>
+            <input type="file" id="extraImage" name="extraImage" accept="image/*">
+            <label for="extraImageWidth">Largeur de l'image supplémentaire :</label>
+            <input type="number" id="extraImageWidth" name="extraImageWidth" value="100">
+            <label for="extraImageHeight">Hauteur de l'image supplémentaire :</label>
+            <input type="number" id="extraImageHeight" name="extraImageHeight" value="100">
+            <label for="extraImagePosX">Position X de l'image supplémentaire :</label>
+            <input type="number" id="extraImagePosX" name="extraImagePosX" value="0">
+            <label for="extraImagePosY">Position Y de l'image supplémentaire :</label>
+            <input type="number" id="extraImagePosY" name="extraImagePosY" value="0">
+            <button type="submit">Générer le QR Code</button>
+        </form>
+        <div class="button-group">
+            <button id="downloadBtn">Télécharger l'image</button>
+        </div>
+        <canvas id="canvas" width="600" height="800"></canvas>
+    </div>
+    <footer class="footer">
+        <p>Contactez-nous: email@example.com | +123 456 7890</p>
+        <p>&copy; 2024 Nom de la Cafeteria. Tous droits réservés.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+	<Script>
+    const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let textCount = 1;
+
+        document.getElementById("qrForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const url = document.getElementById("url").value;
+            const color = document.getElementById("color").value;
+            const bgColor = document.getElementById("bgColor").value;
+            const dotsType = document.getElementById("dotsType").value;
+            const logo = document.getElementById("logo").value;
+           const borderColor = document.getElementById("borderColor").value;
+const borderThickness = document.getElementById("borderThickness").value;
+const pageBgColor = document.getElementById("pageBgColor").value;
+const qrSize = document.getElementById("qrSize").value;
+const qrPosX = document.getElementById("qrPosX").value;
+const qrPosY = document.getElementById("qrPosY").value;
+const extraImage = document.getElementById("extraImage").files[0];
+const extraImageWidth = document.getElementById("extraImageWidth").value;
+const extraImageHeight = document.getElementById("extraImageHeight").value;
+const extraImagePosX = document.getElementById("extraImagePosX").value;
+const extraImagePosY = document.getElementById("extraImagePosY").value;
+
+const qrCode = new QRCodeStyling({
+    width: qrSize,
+    height: qrSize,
+    data: url,
+    dotsOptions: {
+        color: color,
+        type: dotsType
+    },
+    backgroundOptions: {
+        color: bgColor,
+    },
+    image: logo
+});
+
+// Dessiner un rectangle de couleur en arrière-plan
+ctx.fillStyle = pageBgColor;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+qrCode.update({
+    data: url,
+    dotsOptions: {
+        color: color,
+        type: dotsType
+    },
+    backgroundOptions: {
+        color: bgColor
+    },
+    image: logo
+});
+
+qrCode.getRawData("png").then((imageData) => {
+    const qrImage = new Image();
+    qrImage.src = URL.createObjectURL(imageData);
+    qrImage.onload = () => {
+        ctx.drawImage(qrImage, qrPosX, qrPosY, qrSize, qrSize);
+
+        // Dessiner le cadre autour du QR code
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = borderThickness;
+        ctx.strokeRect(qrPosX, qrPosY, qrSize, qrSize);
+
+        if (extraImage) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const extraImageObj = new Image();
+                extraImageObj.src = event.target.result;
+                extraImageObj.onload = () => {
+                    ctx.drawImage(extraImageObj, extraImagePosX, extraImagePosY, extraImageWidth, 
+
+extraImageHeight);
+                    drawTextsAndDownload();
+                };
+            };
+            reader.readAsDataURL(extraImage);
+        } else {
+            drawTextsAndDownload();
+        }
+    };
+});
+});
+
+function drawTextsAndDownload() {
+const textOptionsContainer = document.getElementById('textOptionsContainer');
+const textOptions = textOptionsContainer.querySelectorAll('.text-options');
+
+textOptions.forEach((textOption, index) => {
+    const text = textOption.querySelector(`#qrText${index}`).value;
+    const textColor = textOption.querySelector(`#textColor${index}`).value;
+    const textSize = textOption.querySelector(`#textSize${index}`).value;
+    const textFont = textOption.querySelector(`#textFont${index}`).value;
+    const textPosX = textOption.querySelector(`#textPosX${index}`).value;
+    const textPosY = textOption.querySelector(`#textPosY${index}`).value;
+
+    ctx.fillStyle = textColor;
+    ctx.font = `${textSize}px ${textFont}`;
+    ctx.fillText(text, textPosX, textPosY);
+});
+
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'qr_code.png';
+    link.click();
+});
+}
+
+document.getElementById('addTextBtn').addEventListener('click', () => {
+const textOptionsContainer = document.getElementById('textOptionsContainer');
+const textIndex = textCount++;
+const newTextOptions = document.createElement('div');
+newTextOptions.classList.add('text-options');
+newTextOptions.dataset.textIndex = textIndex;
+newTextOptions.innerHTML = `
+    <label for="qrText${textIndex}">Texte :</label>
+    <input type="text" id="qrText${textIndex}" name="qrText" placeholder="Votre texte ici">
+    <label for="textColor${textIndex}">Couleur du texte :</label>
+    <input type="color" id="textColor${textIndex}" name="textColor" value="#000000">
+    <label for="textSize${textIndex}">Taille du texte :</label>
+    <input type="number" id="textSize${textIndex}" name="textSize" value="20">
+    <label for="textFont${textIndex}">Police du texte :</label>
+    <select id="textFont${textIndex}" name="textFont">
+        <option value="Arial">Arial</option>
+        <option value="Brush Script MT">Brush Script MT</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Vladimir Script">Vladimir Script</option>
+    </select>
+    <label for="textPosX${textIndex}">Position X du Texte :</label>
+    <input type="number" id="textPosX${textIndex}" name="textPosX" value="200">
+    <label for="textPosY${textIndex}">Position Y du Texte :</label>
+    <input type="number" id="textPosY${textIndex}" name="textPosY" value="450">
+`;
+textOptionsContainer.appendChild(newTextOptions);
+});
+</script>
+</body>
+</html>
